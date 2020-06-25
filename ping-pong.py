@@ -1,4 +1,5 @@
 import web
+import signal
 
 counter = 0
 urls = (
@@ -6,6 +7,12 @@ urls = (
     '/get/counter', 'get_counter',
     '/set/counter', 'set_counter'
 )
+
+
+def handler_stop_signals(signum, frame):
+    print("Get interrupt signal, let's exit")
+    raise KeyboardInterrupt
+
 
 class index:
 
@@ -27,7 +34,10 @@ class get_counter:
     def GET(self):
         return str(counter)
 
+
 if __name__ == "__main__":
+    signal.signal(signal.SIGINT, handler_stop_signals)
+    signal.signal(signal.SIGTERM, handler_stop_signals)
     app = web.application(urls, globals())
     app.run()
 
