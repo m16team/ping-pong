@@ -1,4 +1,4 @@
-name: on-tag
+name: on-push-master-and-tag
 
 on:
   push:
